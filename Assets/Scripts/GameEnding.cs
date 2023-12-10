@@ -1,6 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameEnding : MonoBehaviour
@@ -17,7 +15,7 @@ public class GameEnding : MonoBehaviour
     bool m_IsPlayerCaught;
     float m_Timer;
     bool m_HasAudioPlayed;
-
+    
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject == player)
@@ -31,6 +29,8 @@ public class GameEnding : MonoBehaviour
         m_IsPlayerCaught = true;
     }
 
+    public Clock script;
+
     void Update()
     {
         if (m_IsPlayerAtExit)
@@ -38,6 +38,10 @@ public class GameEnding : MonoBehaviour
             EndLevel(exitBackgroundImageCanvasGroup, false, exitAudio);
         }
         else if (m_IsPlayerCaught)
+        {
+            EndLevel(caughtBackgroundImageCanvasGroup, true, caughtAudio);
+        }
+        else if (script.currentTime == 0)
         {
             EndLevel(caughtBackgroundImageCanvasGroup, true, caughtAudio);
         }
@@ -50,7 +54,7 @@ public class GameEnding : MonoBehaviour
             audioSource.Play();
             m_HasAudioPlayed = true;
         }
-
+            
         m_Timer += Time.deltaTime;
         imageCanvasGroup.alpha = m_Timer / fadeDuration;
 
@@ -58,11 +62,11 @@ public class GameEnding : MonoBehaviour
         {
             if (doRestart)
             {
-                SceneManager.LoadScene(0);
+                SceneManager.LoadScene (0);
             }
             else
             {
-                Application.Quit();
+                Application.Quit ();
             }
         }
     }

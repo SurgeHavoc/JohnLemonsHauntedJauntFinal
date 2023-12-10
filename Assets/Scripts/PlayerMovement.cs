@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,26 +18,26 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
-        m_Animator = GetComponent<Animator>();
-        m_Rigidbody = GetComponent<Rigidbody>();
-        m_AudioSource = GetComponent<AudioSource>();
+        m_Animator = GetComponent<Animator> ();
+        m_Rigidbody = GetComponent<Rigidbody> ();
+        m_AudioSource = GetComponent<AudioSource> ();
         normalSpeed = 1f;
     }
 
     void FixedUpdate()
     {
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
-
+        float horizontal = Input.GetAxis ("Horizontal");
+        float vertical = Input.GetAxis ("Vertical");
+        
         m_Movement.Set(horizontal, 0f, vertical);
-        m_Movement.Normalize();
+        m_Movement.Normalize ();
 
-        bool hasHorizontalInput = !Mathf.Approximately(horizontal, 0f);
-        bool hasVerticalInput = !Mathf.Approximately(vertical, 0f);
+        bool hasHorizontalInput = !Mathf.Approximately (horizontal, 0f);
+        bool hasVerticalInput = !Mathf.Approximately (vertical, 0f);
         bool isWalking = hasHorizontalInput || hasVerticalInput;
-        m_Animator.SetBool("IsWalking", isWalking);
-
-        if (isWalking)
+        m_Animator.SetBool ("IsWalking", isWalking);
+        
+        if(isWalking)
         {
             if (!m_AudioSource.isPlaying)
             {
@@ -46,20 +46,19 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            m_AudioSource.Stop();
+            m_AudioSource.Stop ();
         }
 
-        Vector3 desiredForward = Vector3.RotateTowards(transform.forward, m_Movement, turnSpeed * Time.deltaTime, 0f);
-        m_Rotation = Quaternion.LookRotation(desiredForward);
+        Vector3 desiredForward = Vector3.RotateTowards (transform.forward, m_Movement, turnSpeed * Time.deltaTime, 0f);
+        m_Rotation = Quaternion.LookRotation (desiredForward);
 
         nowSpeed = Input.GetKey(KeyCode.LeftShift) ? normalSpeed : runSpeed;
-
     }
 
     void OnAnimatorMove()
     {
-        m_Rigidbody.MovePosition(m_Rigidbody.position + m_Movement * m_Animator.deltaPosition.magnitude);
-        m_Rigidbody.MoveRotation(m_Rotation);
+        m_Rigidbody.MovePosition (m_Rigidbody.position + m_Movement * m_Animator.deltaPosition.magnitude);
+        m_Rigidbody.MoveRotation (m_Rotation);
 
         m_Rigidbody.MovePosition(m_Rigidbody.position + m_Movement * m_Animator.deltaPosition.magnitude * nowSpeed);
     }

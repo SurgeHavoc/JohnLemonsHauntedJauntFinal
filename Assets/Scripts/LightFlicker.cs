@@ -47,26 +47,26 @@ public class LightFlicker : MonoBehaviour
         {
             if (m_Timer >= flickerDuration)
             {
-                ChangeRandomFlickerLightIntensity ();
+                ChangeRandomFlickerLightIntensity();
             }
         }
         else if(flickerMode == FlickerMode.AnimationCurve)
         {
-            ChangeAnimatedFlickerLightIntensity ();
+            ChangeAnimatedFlickerLightIntensity();
         }
             
         flickeringLight.intensity = m_FlickerLightIntensity;
         m_FlickeringMaterial.SetColor (k_EmissionColorID, m_EmissionColor * m_FlickerLightIntensity * k_LightIntensityToEmission);
     }
 
-    void ChangeRandomFlickerLightIntensity ()
+    void ChangeRandomFlickerLightIntensity()
     {
         m_FlickerLightIntensity = Random.Range(lightIntensityMin, lightIntensityMax);
 
         m_Timer = 0f;
     }
 
-    void ChangeAnimatedFlickerLightIntensity ()
+    void ChangeAnimatedFlickerLightIntensity()
     {
         m_FlickerLightIntensity = intensityCurve.Evaluate (m_Timer);
 
